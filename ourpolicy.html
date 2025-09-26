@@ -1,70 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Our Policy — NOTCHILLY</title>
   <link rel="icon" href="./img/Beige and Grey Minimalist Modern Bold Typographic Brand Logo.png">
 
+  <link rel="stylesheet" href="./style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    :root {
-      --primary: #800020; 
-      --background: #fff;
-      --text: #111;
-      --muted: #555;
+    header img {
+      height: 100px;
+      text-align: center;
+      position: relative;
+      left: 70px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-    body { background: var(--background); color: var(--text); line-height: 1.6; }
-    header, footer {
-      background: var(--primary);
-      color: white;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 2rem;
     }
-    header nav a { color: white; margin: 0 1rem; text-decoration: none; }
-    header nav a:hover { text-decoration: underline; }
-    .container { max-width: 900px; margin: auto; padding: 2rem; }
-    h1, h2 { color: var(--primary); margin-bottom: 0.5rem; }
-    h1 { font-size: 2.2rem; text-align: center; margin-bottom: 1.5rem; }
-    h2 { font-size: 1.5rem; margin-top: 2rem; }
-    p { margin-bottom: 1rem; color: var(--muted); }
-    footer { text-align: center; }
-    .fadeUp { animation: fadeUp 1s ease-in-out; }
+
+    h1,
+    h2 {
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: var(--muted);
+    }
+
+    .fadeUp {
+      animation: fadeUp 1s ease-in-out;
+    }
+
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
+
 <body>
   <header>
-    <h2>NOTCHILLY</h2>
+    <img src="./img/Beige and Grey Minimalist Modern Bold Typographic Brand Logo.png">
     <nav>
-     
+      <a href="./index.html">Home</a>
+      <a href="./index.html#shop">Shop</a>
+      <a href="./about.html">About</a>
+      <a href="./contact.html">Contact</a>
+      <a href="./ourpolicy.html">Our policy</a>
     </nav>
   </header>
 
   <div class="container fadeUp">
     <h1>Our Policy</h1>
-    <p>At NOTCHILLY, we believe in transparency, fairness, and respect for our customers.  
-       Please review our policies below to better understand how we work.</p>
+    <p>At NOTCHILLY, we believe in transparency, fairness, and respect for our customers.
+      Please review our policies below to better understand how we work.</p>
 
     <h2>📦 Shipping</h2>
-    <p>Orders are processed within 2–3 business days. Standard delivery in Egypt usually takes 3–5 business days.  
-       Free shipping applies on all orders over 1500 EGP.</p>
+    <p>Orders are processed within 2–3 business days. Standard delivery in Egypt usually takes 3–5 business days.
+      Free shipping applies on all orders over 1500 EGP.</p>
 
     <h2>↩️ Returns & Exchanges</h2>
-    <p>If you’re not satisfied with your hoodie, you can return or exchange it within 14 days of purchase.  
-       Items must be unworn, unwashed, and in original condition. To start a return, please contact our support team.</p>
+    <p>If you’re not satisfied with your hoodie, you can return or exchange it within 14 days of purchase.
+      Items must be unworn, unwashed, and in original condition. To start a return, please contact our support team.</p>
 
     <h2>🔒 Privacy</h2>
-    <p>Your data is safe with us. We only collect the information necessary to process your order and never share it with third parties.  
-       Payments are encrypted and processed securely.</p>
+    <p>Your data is safe with us. We only collect the information necessary to process your order and never share it
+      with third parties.
+      Payments are encrypted and processed securely.</p>
 
-    
+    <h2>💳 Payment</h2>
+    <p>We accept all major credit cards and secure payment methods. All transactions are processed through encrypted
+      channels to ensure your financial information is protected.</p>
 
-  
+    <h2>📞 Customer Support</h2>
+    <p>Our customer support team is available to help with any questions or concerns. Contact us via email or phone, and
+      we'll respond within 24 hours.</p>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <!-- Brand -->
+      <div class="footer-brand">
+        <h2>NOTCHILLY</h2>
+        <p>Stay Lit, Not Chilly 🔥</p>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-contact">
+        <p>📧 <a href="mailto:support@notchilly.com">support@notchilly.com</a></p>
+        <p>📞 <a href="tel:+201234567890">+20 123 456 7890</a></p>
+      </div>
+
+      <!-- Social -->
+      <div class="footer-social">
+        <a href="https://facebook.com" target="_blank" class="social-icon"><i class="fab fa-facebook"></i></a>
+        <a href="https://instagram.com" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+        <a href="mailto:support@notchilly.com" class="social-icon"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
 </body>
+
 </html>

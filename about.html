@@ -1,60 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About — NOTCHILLY</title>
-    <link rel="icon" href="./img/Beige and Grey Minimalist Modern Bold Typographic Brand Logo.png">
-
-    <link rel="stylesheet" href="./style.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — NOTCHILLY</title>
+  <link rel="icon" href="./img/Beige and Grey Minimalist Modern Bold Typographic Brand Logo.png">
+  <link rel="stylesheet" href="./style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body>
-    <section id="about" class="about-section">
-        <div class="about-container">
-          <h2>Our Story</h2>
-          <p>
-            Not Chilly started with a single vision: to make streetwear hoodies that keep you warm, stylish, 
-            and confident. Born in Cairo, our brand combines bold design with everyday comfort.
-          </p>
-      
-          <h3>🔥 Our Mission</h3>
-          <p>
-            We believe in more than just fashion. Our mission is to craft hoodies that empower individuals 
-            to express themselves while staying true to ethical and sustainable values.
-          </p>
-      
-          <h3>🌱 Sustainable Materials</h3>
-          <p>
-            Each hoodie is made from eco-friendly cotton blends and durable fabrics. By sourcing responsibly, 
-            we reduce waste and minimize our environmental impact.
-          </p>
-      
-          <h3>🤝 Local Craftsmanship</h3>
-          <p>
-            Every piece is designed and produced locally in Egypt, supporting artisans and strengthening 
-            our community. When you wear Not Chilly, you wear a story stitched with care.
-          </p>
-      
-          <h3>💡 Join the Movement</h3>
-          <p>
-            Not Chilly isn’t just a brand — it’s a culture of boldness, warmth, and authenticity. 
-            Wherever you go, our hoodies keep your style hot.
-          </p>
-        </div>
-      </section>
-    <script>
-  // Animate when scrolling into view
-  const about = document.querySelector('.about-container');
-  window.addEventListener('scroll', () => {
-    const rect = about.getBoundingClientRect();
-    if (rect.top < window.innerHeight - 100) {
-      about.style.animationPlayState = 'running';
-    }
-  });
-</script>
 
-    
-  
+<body>
+  <header>
+    <img src="./img/Beige and Grey Minimalist Modern Bold Typographic Brand Logo.png">
+    <nav>
+      <a href="./index.html">Home</a>
+      <a href="./index.html#shop">Shop</a>
+      <a href="./about.html">About</a>
+      <a href="./contact.html">Contact</a>
+      <a href="./ourpolicy.html">Our policy</a>
+    </nav>
+  </header>
+  <section id="about" class="about-section">
+    <div class="about-container">
+      <h2>Our Story</h2>
+      <p>
+        Not Chilly started with a single vision: to make streetwear hoodies that keep you warm, stylish,
+        and confident. Born in Cairo, our brand combines bold design with everyday comfort.
+      </p>
+
+      <h3>🔥 Our Mission</h3>
+      <p>
+        We believe in more than just fashion. Our mission is to craft hoodies that empower individuals
+        to express themselves while staying true to ethical and sustainable values.
+      </p>
+
+      <h3>🌱 Sustainable Materials</h3>
+      <p>
+        Each hoodie is made from eco-friendly cotton blends and durable fabrics. By sourcing responsibly,
+        we reduce waste and minimize our environmental impact.
+      </p>
+
+      <h3>🤝 Local Craftsmanship</h3>
+      <p>
+        Every piece is designed and produced locally in Egypt, supporting artisans and strengthening
+        our community. When you wear Not Chilly, you wear a story stitched with care.
+      </p>
+
+      <h3>💡 Join the Movement</h3>
+      <p>
+        Not Chilly isn’t just a brand — it’s a culture of boldness, warmth, and authenticity.
+        Wherever you go, our hoodies keep your style hot.
+      </p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <!-- Brand -->
+      <div class="footer-brand">
+        <h2>NOTCHILLY</h2>
+        <p>Stay Lit, Not Chilly 🔥</p>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-contact">
+        <p>📧 <a href="mailto:support@notchilly.com">support@notchilly.com</a></p>
+        <p>📞 <a href="tel:+201234567890">+20 123 456 7890</a></p>
+      </div>
+
+      <!-- Social -->
+      <div class="footer-social">
+        <a href="https://facebook.com" target="_blank" class="social-icon"><i class="fab fa-facebook"></i></a>
+        <a href="https://instagram.com" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+        <a href="mailto:support@notchilly.com" class="social-icon"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Animate when scrolling into view
+    const about = document.querySelector('.about-container');
+    window.addEventListener('scroll', () => {
+      const rect = about.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 100) {
+        about.style.animationPlayState = 'running';
+      }
+    });
+  </script>
 </body>
+
 </html>

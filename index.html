@@ -16,9 +16,9 @@
     <img src="./img/Beige and Grey Minimalist Modern Bold Typographic Brand Logo.png">
     <nav>
       <a href="#shop">Shop</a>
-      <a href="/about.html">About</a>
+      <a href="./about.html">About</a>
       <a href="./contact.html">Contact</a>
-      <a href="/ourpolicy.html">Our policy </a>
+      <a href="./ourpolicy.html">Our policy </a>
       <button id="open-cart">Cart (<span id="cart-count">0</span>)</button>
 
     </nav>
@@ -100,11 +100,88 @@
 
   <!-- Cart Sidebar -->
   <div id="cart" class="cart-side">
-    <h3>Cart</h3>
+    <div class="cart-header">
+      <h3>Cart</h3>
+      <button id="close-cart" class="close-btn">&times;</button>
+    </div>
     <div id="cart-items"></div>
     <strong>Total: <span id="cart-total">0 EGP</span></strong>
     <button id="checkout" style="margin-top:1rem">Checkout</button>
     <button id="empty-cart" class="cart-btn" style="margin-top:.5rem">Empty</button>
+  </div>
+
+  <!-- Payment Modal -->
+  <div class="payment-modal" id="payment-modal">
+    <div class="payment-card">
+      <div class="payment-header">
+        <h3>Payment Details</h3>
+        <button id="close-payment" class="close-btn">&times;</button>
+      </div>
+      <form id="payment-form">
+        <div class="form-group">
+          <label for="card-number">Card Number</label>
+          <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="expiry-date">Expiry Date</label>
+            <input type="text" id="expiry-date" placeholder="MM/YY" maxlength="5" required>
+          </div>
+          <div class="form-group">
+            <label for="cvv">CVV</label>
+            <input type="text" id="cvv" placeholder="123" maxlength="4" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="card-name">Cardholder Name</label>
+          <input type="text" id="card-name" placeholder="John Doe" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="john@example.com" required>
+        </div>
+        <div class="payment-summary">
+          <h4>Order Summary</h4>
+          <div id="payment-items"></div>
+          <div class="payment-total">
+            <strong>Total: <span id="payment-total">0 EGP</span></strong>
+          </div>
+        </div>
+        <div class="payment-buttons">
+          <button type="button" id="back-to-cart" class="cart-btn">Back to Cart</button>
+          <button type="submit" id="process-payment">Pay Now</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Payment Success Modal -->
+  <div class="success-modal" id="success-modal">
+    <div class="success-card">
+      <div class="success-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h2>Payment Successful!</h2>
+      <p>Thank you for your purchase. Your order has been confirmed and will be processed shortly.</p>
+      <div class="order-details">
+        <div class="order-info">
+          <span>Order ID:</span>
+          <span id="order-id">#12345</span>
+        </div>
+        <div class="order-info">
+          <span>Total Amount:</span>
+          <span id="success-total">0 EGP</span>
+        </div>
+        <div class="order-info">
+          <span>Email:</span>
+          <span id="success-email">customer@example.com</span>
+        </div>
+      </div>
+      <div class="success-buttons">
+        <button id="continue-shopping" class="success-btn">Continue Shopping</button>
+        <button id="view-order" class="cart-btn">View Order Details</button>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -123,6 +200,12 @@
     const modalDesc = document.getElementById("modal-desc"), modalPrice = document.getElementById("modal-price");
     const cartEl = document.getElementById("cart"), cartItemsEl = document.getElementById("cart-items");
     const cartCount = document.getElementById("cart-count"), cartTotal = document.getElementById("cart-total");
+    const paymentModal = document.getElementById("payment-modal"), paymentItemsEl = document.getElementById("payment-items");
+    const paymentTotal = document.getElementById("payment-total");
+    const successModal = document.getElementById("success-modal");
+    const orderId = document.getElementById("order-id");
+    const successTotal = document.getElementById("success-total");
+    const successEmail = document.getElementById("success-email");
     let current = null; let cart = [];
     function renderProducts() {
       productsEl.innerHTML = "";
@@ -149,6 +232,9 @@
     document.getElementById("open-cart").addEventListener("click", () => {
       cartEl.style.display = cartEl.style.display === "flex" ? "none" : "flex";
     });
+    document.getElementById("close-cart").addEventListener("click", () => {
+      cartEl.style.display = "none";
+    });
     document.getElementById("empty-cart").addEventListener("click", () => { cart = []; renderCart(); });
     function renderCart() {
       cartItemsEl.innerHTML = ""; let total = 0;
@@ -159,13 +245,106 @@
       cartCount.textContent = cart.length; cartTotal.textContent = total + " EGP";
     }
 
-    document.getElementById("checkout").addEventListener("click", async () => {
+    document.getElementById("checkout").addEventListener("click", () => {
       if (cart.length === 0) return alert("Cart empty");
-      const order = { items: cart, total: cart.reduce((s, i) => s + i.price, 0) };
+      renderPaymentSummary();
+      paymentModal.classList.add("open");
+    });
+
+    document.getElementById("close-payment").addEventListener("click", () => {
+      paymentModal.classList.remove("open");
+    });
+
+    document.getElementById("back-to-cart").addEventListener("click", () => {
+      paymentModal.classList.remove("open");
+    });
+
+    function renderPaymentSummary() {
+      paymentItemsEl.innerHTML = "";
+      let total = 0;
+      cart.forEach(item => {
+        total += item.price * item.qty;
+        const paymentItem = document.createElement("div");
+        paymentItem.className = "payment-item";
+        paymentItem.innerHTML = `
+          <span>${item.title} (${item.size}/${item.color})</span>
+          <span>${item.price} EGP</span>
+        `;
+        paymentItemsEl.appendChild(paymentItem);
+      });
+      paymentTotal.textContent = total + " EGP";
+    }
+
+    // Format card number input
+    document.getElementById("card-number").addEventListener("input", (e) => {
+      let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+      let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+      e.target.value = formattedValue;
+    });
+
+    // Format expiry date input
+    document.getElementById("expiry-date").addEventListener("input", (e) => {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length >= 2) {
+        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+      }
+      e.target.value = value;
+    });
+
+    // Format CVV input
+    document.getElementById("cvv").addEventListener("input", (e) => {
+      e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    });
+
+    document.getElementById("payment-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const order = {
+        items: cart,
+        total: cart.reduce((s, i) => s + i.price, 0),
+        payment: {
+          cardNumber: document.getElementById("card-number").value,
+          expiryDate: document.getElementById("expiry-date").value,
+          cvv: document.getElementById("cvv").value,
+          cardName: document.getElementById("card-name").value,
+          email: document.getElementById("email").value
+        }
+      };
+
       try {
-        const res = await fetch("https://jsonplaceholder.typicode.com/posts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(order) });
-        const data = await res.json(); alert("Order placed! (demo id: " + data.id + ")"); cart = []; renderCart();
-      } catch (e) { alert("Failed: " + e.message); }
+        const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(order)
+        });
+        const data = await res.json();
+
+        // Show success screen
+        showSuccessScreen(data.id, order.total, order.payment.email);
+
+        // Clear cart and reset form
+        cart = [];
+        renderCart();
+        paymentModal.classList.remove("open");
+        document.getElementById("payment-form").reset();
+      } catch (e) {
+        alert("Payment failed: " + e.message);
+      }
+    });
+
+    function showSuccessScreen(orderIdValue, total, email) {
+      orderId.textContent = "#" + orderIdValue;
+      successTotal.textContent = total + " EGP";
+      successEmail.textContent = email;
+      successModal.classList.add("open");
+    }
+
+    document.getElementById("continue-shopping").addEventListener("click", () => {
+      successModal.classList.remove("open");
+    });
+
+    document.getElementById("view-order").addEventListener("click", () => {
+      successModal.classList.remove("open");
+      alert("Order details feature coming soon!");
     });
     // Contact form demo
     document.getElementById("contact-form").addEventListener("submit", async (e) => {
