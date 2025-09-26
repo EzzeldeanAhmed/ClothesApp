@@ -19,6 +19,9 @@
       <a href="./about.html">About</a>
       <a href="./contact.html">Contact</a>
       <a href="./ourpolicy.html">Our policy </a>
+      <span id="user-display" style="margin-right:.75rem"></span>
+      <button id="auth-btn" class="cart-btn">Login</button>
+      <button id="logout-btn" class="logout-btn" style="display:none; margin-right:.5rem">Logout</button>
       <button id="open-cart">Cart (<span id="cart-count">0</span>)</button>
 
     </nav>
@@ -184,6 +187,50 @@
     </div>
   </div>
 
+  <!-- Auth Modal -->
+  <div class="payment-modal" id="auth-modal" style="z-index:1100;">
+    <div class="payment-card">
+      <div class="payment-header">
+        <h3 id="auth-title">Login</h3>
+        <button id="close-auth" class="close-btn">&times;</button>
+      </div>
+      <div class="payment-buttons" style="margin-top:0">
+        <button id="show-login" class="success-btn">Login</button>
+        <button id="show-register" class="cart-btn">Register</button>
+      </div>
+      <form id="login-form" style="margin-top:1rem">
+        <div class="form-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="••••••••" required>
+        </div>
+        <div class="payment-buttons">
+          <button type="submit" id="login-submit">Login</button>
+        </div>
+      </form>
+      <form id="register-form" style="display:none; margin-top:1rem">
+        <div class="form-group">
+          <label for="register-name">Full Name</label>
+          <input type="text" id="register-name" placeholder="John Doe" required>
+        </div>
+        <div class="form-group">
+          <label for="register-email">Email</label>
+          <input type="email" id="register-email" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="register-password">Password</label>
+          <input type="password" id="register-password" placeholder="Min 6 characters" required>
+        </div>
+        <div class="payment-buttons">
+          <button type="submit" id="register-submit">Create Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
     const products = [
       { id: 1, title: "Evil Eye Off Shoulder Hoodie", desc: "Oversized, fleece cotton 350gsm.", price: 1200, image: "./img/Patchwork schulterfrei Hoodie Evil Eye.jfif" },
@@ -206,7 +253,18 @@
     const orderId = document.getElementById("order-id");
     const successTotal = document.getElementById("success-total");
     const successEmail = document.getElementById("success-email");
+    const authBtn = document.getElementById("auth-btn");
+    const logoutBtn = document.getElementById("logout-btn");
+    const userDisplay = document.getElementById("user-display");
+    const authModal = document.getElementById("auth-modal");
+    const closeAuth = document.getElementById("close-auth");
+    const showLogin = document.getElementById("show-login");
+    const showRegister = document.getElementById("show-register");
+    const authTitle = document.getElementById("auth-title");
+    const loginForm = document.getElementById("login-form");
+    const registerForm = document.getElementById("register-form");
     let current = null; let cart = [];
+    let currentUser = null;
     function renderProducts() {
       productsEl.innerHTML = "";
       products.forEach(p => {
@@ -346,6 +404,155 @@
       successModal.classList.remove("open");
       alert("Order details feature coming soon!");
     });
+
+    // JSON-based Authentication System
+    let usersData = { users: [] };
+
+    // Load users from localStorage first; if none, attempt JSON fetch (optional)
+    async function loadUsers() {
+      try {
+        const stored = localStorage.getItem('usersData');
+        if (stored) {
+          usersData = JSON.parse(stored);
+          return;
+        }
+        // Optional: attempt to fetch users.json when served via HTTP (not file://)
+        if (location.protocol.startsWith('http')) {
+          const response = await fetch('./users.json');
+          if (response.ok) {
+            usersData = await response.json();
+            localStorage.setItem('usersData', JSON.stringify(usersData));
+          }
+        }
+      } catch (error) {
+        console.warn('Could not load users data:', error);
+      }
+    }
+
+    // Save users to localStorage (no server required)
+    async function saveUsers() {
+      try {
+        localStorage.setItem('usersData', JSON.stringify(usersData));
+      } catch (error) {
+        console.error('Error saving users:', error);
+        alert('Error saving user data');
+      }
+    }
+
+    // Auth modal controls
+    function openAuth(tab = "login") {
+      authModal.classList.add("open");
+      if (tab === "register") {
+        authTitle.textContent = "Register";
+        loginForm.style.display = "none";
+        registerForm.style.display = "block";
+      } else {
+        authTitle.textContent = "Login";
+        loginForm.style.display = "block";
+        registerForm.style.display = "none";
+      }
+    }
+
+    function setUserUI(user) {
+      currentUser = user;
+      if (user) {
+        userDisplay.textContent = (user.name && user.name.trim()) ? user.name : user.email;
+        authBtn.style.display = "none";
+        logoutBtn.style.display = "inline-block";
+        localStorage.setItem('currentUser', JSON.stringify(user));
+      } else {
+        userDisplay.textContent = "";
+        authBtn.style.display = "inline-block";
+        logoutBtn.style.display = "none";
+        localStorage.removeItem('currentUser');
+      }
+    }
+
+    // Event listeners for auth
+    closeAuth.addEventListener("click", () => authModal.classList.remove("open"));
+    showLogin.addEventListener("click", () => openAuth("login"));
+    showRegister.addEventListener("click", () => openAuth("register"));
+
+    authBtn.addEventListener("click", () => {
+      openAuth("login");
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      setUserUI(null);
+      // Redirect to login page after logout
+      window.location.href = './login.html';
+    });
+
+    // Register form handler
+    registerForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("register-name").value.trim();
+      const email = document.getElementById("register-email").value.trim();
+      const password = document.getElementById("register-password").value;
+
+      if (password.length < 6) {
+        alert("Password must be at least 6 characters long");
+        return;
+      }
+
+      // Check if user already exists
+      const existingUser = usersData.users.find(user => user.email === email);
+      if (existingUser) {
+        alert("User with this email already exists");
+        return;
+      }
+
+      // Create new user
+      const newUser = {
+        id: Date.now().toString(),
+        name,
+        email,
+        password, // In real app, hash this password
+        createdAt: new Date().toISOString()
+      };
+
+      usersData.users.push(newUser);
+      await saveUsers();
+
+      setUserUI({ email: newUser.email, name: newUser.name });
+      authModal.classList.remove("open");
+      registerForm.reset();
+      alert("Account created successfully!");
+    });
+
+    // Login form handler
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value.trim();
+      const password = document.getElementById("login-password").value;
+
+      const user = usersData.users.find(u => u.email === email && u.password === password);
+      if (user) {
+        setUserUI({ email: user.email, name: user.name });
+        authModal.classList.remove("open");
+        loginForm.reset();
+        alert("Login successful!");
+      } else {
+        alert("Invalid email or password");
+      }
+    });
+
+    // Initialize
+    loadUsers();
+    // Check authentication on page load
+    try {
+      const cu = localStorage.getItem('currentUser');
+      if (cu) {
+        setUserUI(JSON.parse(cu));
+      } else {
+        // Redirect to login page if not authenticated
+        window.location.href = './login.html';
+      }
+    } catch (error) {
+      console.error('Auth check error:', error);
+      window.location.href = './login.html';
+    }
+
     // Contact form demo
     document.getElementById("contact-form").addEventListener("submit", async (e) => {
       e.preventDefault(); document.getElementById("c-status").textContent = "Sending…";

@@ -270,6 +270,19 @@
   button { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
   button:hover { opacity: 0.9; }
   .cart-btn { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
+  .logout-btn { 
+    background: #dc3545; 
+    color: white; 
+    border: 1px solid #dc3545; 
+    padding: 8px 14px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-size: 0.9rem;
+  }
+  .logout-btn:hover { 
+    background: #c82333; 
+    border-color: #c82333; 
+  }
   .about-section {
     background: var(--primary);
     color: white;
