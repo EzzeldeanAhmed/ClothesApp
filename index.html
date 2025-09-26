@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NOTCHILLY Hoodies</title>
+  <link rel="icon" href="./img/Beige and Grey Minimalist Modern Bold Typographic Brand Logo.png">
+  <link rel="stylesheet" href="./style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+  <header>
+    <img src="./img/Beige and Grey Minimalist Modern Bold Typographic Brand Logo.png">
+    <nav>
+      <a href="#shop">Shop</a>
+      <a href="/about.html">About</a>
+      <a href="./contact.html">Contact</a>
+      <a href="/ourpolicy.html">Our policy </a>
+      <button id="open-cart">Cart (<span id="cart-count">0</span>)</button>
+
+    </nav>
+  </header>
+
+  <div class="container">
+    <section id="shop">
+      <h2 style="color:var(--primary)">Our Hoodies</h2>
+      <div id="products" class="grid"></div>
+    </section>
+
+
+    <section id="contact" style="margin-top:2rem">
+      <h2 style="color:var(--primary)"></h2>
+      <form id="contact-form">
+
+      </form>
+    </section>
+  </div>
+
+
+
+  <footer class="footer">
+    <div class="footer-container">
+
+      <!-- Brand -->
+      <div class="footer-brand">
+        <h2>NOTCHILLY </h2>
+        <p>Stay Lit, Not Chilly 🔥</p>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-contact">
+        <p>📧 <a href="mailto:support@notchilly.com">support@notchilly.com</a></p>
+        <p>📞 <a href="tel:+201234567890">+20 123 456 7890</a></p>
+      </div>
+
+      <!-- Social -->
+      <div class="footer-social">
+        <a href="https://facebook.com" target="_blank" class="social-icon"><i class="fab fa-facebook"></i></a>
+        <a href="https://instagram.com" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+        <a href="mailto:support@notchilly.com" class="social-icon"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+
+
+    </div>
+  </footer>
+
+
+
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-card">
+      <img id="modal-image" src="./img/download (3).jfif" alt="" />
+      <div>
+        <h3 id="modal-title"></h3>
+        <p id="modal-desc"></p>
+        <div class="price" id="modal-price"></div>
+        <label>Size</label>
+        <select id="modal-size">
+          <option>S</option>
+          <option>M</option>
+          <option>L</option>
+          <option>XL</option>
+        </select><br><br>
+        <label>Color</label>
+        <select id="modal-color">
+          <option>Black</option>
+          <option>White</option>
+          <option>Burgundy</option>
+        </select><br><br>
+        <button id="add-to-cart">Add to Cart</button>
+        <button id="close-modal" class="cart-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Sidebar -->
+  <div id="cart" class="cart-side">
+    <h3>Cart</h3>
+    <div id="cart-items"></div>
+    <strong>Total: <span id="cart-total">0 EGP</span></strong>
+    <button id="checkout" style="margin-top:1rem">Checkout</button>
+    <button id="empty-cart" class="cart-btn" style="margin-top:.5rem">Empty</button>
+  </div>
+
+  <script>
+    const products = [
+      { id: 1, title: "Evil Eye Off Shoulder Hoodie", desc: "Oversized, fleece cotton 350gsm.", price: 1200, image: "./img/Patchwork schulterfrei Hoodie Evil Eye.jfif" },
+      { id: 1, title: "Gray Hoodie", desc: "Oversized, fleece cotton 350gsm.", price: 1050, image: "./img/download (3).jfif" },
+      { id: 1, title: "burgandy oversize heat Hoodie", desc: "Oversized, fleece cotton 350gsm.", price: 950, image: "./img/DAZY Contrast Color Block Turndown Collar Loose Fleece Sweatshirt For Women.jfif" },
+      { id: 1, title: "Classic stitched(حب) Black Hoodie", desc: "Oversized, fleece cotton 350gsm.", price: 1050, image: "./img/Swagger & Ink.jfif" },
+      { id: 1, title: "white oversize sweatshirt", desc: "Oversized, fleece cotton 350gsm.", price: 950, image: "./img/Artwork WEYZ.jfif" },
+      { id: 1, title: "Dark Gray Hoodie", desc: "Oversized, fleece cotton 350gsm.", price: 950, image: "./img/stussy i-d world tour hoodie.jfif" },
+      { id: 2, title: "Stared gray Hoodie", desc: "Logo stitched, eco-friendly fabric.", price: 1100, image: "./img/download.jfif" },
+      { id: 3, title: "Balle de billard Hoodie", desc: "Streetwear cut, bold burgundy.", price: 1050, image: "./img/Sweat Balle de billard.jfif" }
+    ];
+    const productsEl = document.getElementById("products"), modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modal-image"), modalTitle = document.getElementById("modal-title");
+    const modalDesc = document.getElementById("modal-desc"), modalPrice = document.getElementById("modal-price");
+    const cartEl = document.getElementById("cart"), cartItemsEl = document.getElementById("cart-items");
+    const cartCount = document.getElementById("cart-count"), cartTotal = document.getElementById("cart-total");
+    let current = null; let cart = [];
+    function renderProducts() {
+      productsEl.innerHTML = "";
+      products.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "product";
+        card.innerHTML = `<img src="${p.image}" alt="${p.title}"><h3>${p.title}</h3><div class="price">${p.price} EGP</div>`;
+        card.addEventListener("click", () => openModal(p));
+        productsEl.appendChild(card);
+      });
+    }
+    function openModal(p) {
+      current = p; modal.classList.add("open");
+      modalImg.src = p.image; modalTitle.textContent = p.title; modalDesc.textContent = p.desc;
+      modalPrice.textContent = p.price + " EGP";
+    }
+    document.getElementById("close-modal").addEventListener("click", () => modal.classList.remove("open"));
+    document.getElementById("add-to-cart").addEventListener("click", () => {
+      const size = document.getElementById("modal-size").value;
+      const color = document.getElementById("modal-color").value;
+      const item = { ...current, size, color, qty: 1 };
+      cart.push(item); renderCart(); modal.classList.remove("open");
+    });
+    document.getElementById("open-cart").addEventListener("click", () => {
+      cartEl.style.display = cartEl.style.display === "flex" ? "none" : "flex";
+    });
+    document.getElementById("empty-cart").addEventListener("click", () => { cart = []; renderCart(); });
+    function renderCart() {
+      cartItemsEl.innerHTML = ""; let total = 0;
+      cart.forEach((it, i) => {
+        total += it.price * it.qty;
+        cartItemsEl.innerHTML += `<div class="cart-item"><img src="${it.image}"><div>${it.title}<br><small>${it.size} / ${it.color}</small></div><div>${it.price} EGP</div></div>`;
+      });
+      cartCount.textContent = cart.length; cartTotal.textContent = total + " EGP";
+    }
+
+    document.getElementById("checkout").addEventListener("click", async () => {
+      if (cart.length === 0) return alert("Cart empty");
+      const order = { items: cart, total: cart.reduce((s, i) => s + i.price, 0) };
+      try {
+        const res = await fetch("https://jsonplaceholder.typicode.com/posts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(order) });
+        const data = await res.json(); alert("Order placed! (demo id: " + data.id + ")"); cart = []; renderCart();
+      } catch (e) { alert("Failed: " + e.message); }
+    });
+    // Contact form demo
+    document.getElementById("contact-form").addEventListener("submit", async (e) => {
+      e.preventDefault(); document.getElementById("c-status").textContent = "Sending…";
+      const payload = { name: document.getElementById("c-name").value, email: document.getElementById("c-email").value, message: document.getElementById("c-message").value };
+      try {
+        const res = await fetch("https://jsonplaceholder.typicode.com/posts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+        const data = await res.json(); document.getElementById("c-status").style.color = "green"; document.getElementById("c-status").textContent = "Sent! (demo id: " + data.id + ")"; e.target.reset();
+      } catch (e) { document.getElementById("c-status").style.color = "red"; document.getElementById("c-status").textContent = "Failed"; }
+    });
+    renderProducts();
+  </script>
+</body>
+
+</html>

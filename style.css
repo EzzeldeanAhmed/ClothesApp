@@ -1,0 +1,217 @@
+:root {
+    --primary: #800020; /* burgundy */
+    --background: #fff;
+    --text: #111;
+    --muted: #555;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+  body { background: var(--background); color: var(--text); }
+  header, footer {
+    background: var(--primary);
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header h1 {position: relative;left: -450px;  }
+  header img { height: 100px; text-align: center; position: relative; left: 70px;}
+  header nav a { color: white; margin: 0 1rem;  text-decoration: none; }
+  header nav a:hover { text-decoration: underline; }
+  .container { max-width: 1200px; margin: auto; padding: 1rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(250px,1fr)); gap: 16px; margin-top: 1rem; }
+  .product { background: #fdfdfd; border: 1px solid #eee; border-radius: 12px; overflow: hidden; cursor: pointer; transition: transform .2s; }
+  .product:hover { transform: scale(1.02); }
+  .product img { width: 100%; height: 280px; object-fit: cover; }
+  .product h3 { padding: .5rem 1rem; font-size: 1.1rem; }
+  .price { color: var(--primary); padding: 0 1rem 1rem; font-weight: bold; }
+  footer { text-align: center; }
+  /* Modal */
+  .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
+  .modal.open { display: flex; }
+  .modal-card { background: white; border-radius: 12px; max-width: 700px; width: 90%; padding: 1rem; display: flex; gap: 1rem; }
+  .modal-card img { width: 50%; border-radius: 8px; object-fit: cover; }
+  .cart-side {
+    position: fixed; right: 0; top: 0; height: 100%; width: 320px;
+    background: #fff; border-left: 3px solid var(--primary);
+    padding: 1rem; display: none; flex-direction: column;
+  }
+  .cart-item { display: flex; gap: 8px; margin-bottom: 10px; }
+  .cart-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; }
+  button { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
+  button:hover { opacity: 0.9; }
+  .cart-btn { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
+  .about-section {
+    background: var(--primary);
+    color: white;
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+  
+  .about-container {
+    max-width: 800px;
+    margin: auto;
+    animation: fadeUp 1.2s ease-in-out;
+  }
+  
+  .about-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .about-section h3 {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    color: #ffdede;
+  }
+  
+  .about-section p {
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+    line-height: 1.6;
+    animation: fadeIn 1.5s ease-in-out;
+  }
+  
+  @keyframes fadeUp {
+    from { transform: translateY(40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .contact-section {
+    background: #fff;
+    color: var(--primary);
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+  
+  .contact-container {
+    max-width: 700px;
+    margin: auto;
+    animation: fadeUp 1.2s ease-in-out;
+  }
+  
+  .contact-section h2 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .contact-section p {
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+  
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .contact-form input,
+  .contact-form textarea {
+    padding: 12px;
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.3s;
+  }
+  
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    border-color: #a83250;
+  }
+  
+  .contact-form button {
+    background: var(--primary);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+  }
+  
+  .contact-form button:hover {
+    opacity: 0.9;
+  }
+  
+  .status {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  /* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap');
+
+.footer {
+  background: var(--primary);
+  color: white;
+  padding: 2.5rem 1rem;
+  margin-top: 3rem;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.footer-container {
+  max-width: 1000px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.footer-brand h2 {
+  font-size: 2rem;
+  margin-bottom: 0.3rem;
+}
+
+.footer-brand p {
+  font-size: 1.1rem;
+  color: #ffdede;
+}
+
+.footer-contact p {
+  margin: 0.3rem 0;
+  font-size: 1rem;
+}
+
+.footer-contact a {
+  color: #ffdede;
+  text-decoration: none;
+}
+
+.footer-contact a:hover {
+  text-decoration: underline;
+}
+
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  font-size: 1.8rem;
+}
+
+.social-icon {
+  color: white;
+  transition: transform 0.3s, color 0.3s;
+}
+
+.social-icon:hover {
+  color: #ffdede;
+  transform: scale(1.2) rotate(10deg);
+}
+
+.footer-bottom {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: #eee;
+}
+
+    
